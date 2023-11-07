@@ -91,9 +91,6 @@ while runing:
         speed = 0
         possible_move = [-1]
 
-        # for sounds
-        wall_sound_play = False
-        show_wall_sound_one_time = True
         if menu_state == "menu":
             # draw the back, logo, play, exit button
             screen.blit(menu_back_img, (0, 0))
@@ -117,33 +114,6 @@ while runing:
 
             # choose the mode variable
             player_vs_player = player_vs_computer = False
-
-        # player exchange move
-        if menu_state == "lost":
-            # take move from player class
-            next_move = player.lost_next_move(player_move)
-            player_move = next_move
-
-            # sound for next player
-            player_selection.play()
-
-            # change menu state
-            menu_state = "play"
-
-        if menu_state == "won":
-            # take a list and store the value of winner and next move
-            won_list = player.won_next_move(player_move)
-            if won_list[0]:
-                menu_state = "menu"
-                # player is won the game then
-                win_sound.play()
-                time.sleep(1.2)
-
-            else:
-                player_move = won_list[1]
-                menu_state = "play"
-                # sound for next player
-                player_selection.play()
 
     else:
         sqr = Square(screen, 106, 120, n)
@@ -194,6 +164,7 @@ while runing:
                         if i in possible_move:
                             p_x, p_y = sqr_lst[i].topleft
                             px, py = p_x + 5, p_y + 5
+                            speed = 0
 
         for user_input in range(n * 4):
             if sqr_lst[user_input].collidepoint((px, py)):
@@ -223,9 +194,31 @@ while runing:
                 pygame.time.delay(12)
                 if player_won:
                     player.draw_player(220, 50, player_move[0])
+                    if speed >= 3 and speed <= 5:
+                        # make object of class to play the game
+                        game = Game(n)
+                        # game variable
+                        show_img_l = False
+                        show_card = True
+                        player_won = player_lost = False
 
-                    if speed >= 3:
-                        menu_state = "won"
+                        # player original position
+                        px = 220
+                        py = 560
+                        speed = 0
+                        possible_move = [-1]
+
+                        won_list = player.won_next_move(player_move)
+                        if won_list[0]:
+                            menu_state = "menu"
+                            # player is won the game then
+                            win_sound.play()
+                            time.sleep(1.2)
+
+                        else:
+                            player_move = won_list[1]
+                            # sound for next player
+                            player_selection.play()
 
                 elif player_lost:
                     # player_move
@@ -236,8 +229,27 @@ while runing:
                     #  if speed <= 1:
                     # loss_sound.play()
 
-                    if speed >= 3:
-                        menu_state = "lost"
+                    if speed >= 3 and speed <= 5:
+                        # make object of class to play the game
+                        game = Game(n)
+
+                        # game variable
+                        show_img_l = False
+                        show_card = True
+                        player_won = player_lost = False
+
+                        # player original position
+                        px = 220
+                        py = 560
+                        speed = 0
+                        possible_move = [-1]
+
+                        # take move from player class
+                        next_move = player.lost_next_move(player_move)
+                        player_move = next_move
+
+                        # sound for next player
+                        player_selection.play()
 
             else:
                 if game_ready_point:
