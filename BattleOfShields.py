@@ -104,7 +104,7 @@ class Game:
         return False
 
 
-# play the game
+# play the game on command line
 def play(game):
     # show num board
     game.num_board(game.num_rows)

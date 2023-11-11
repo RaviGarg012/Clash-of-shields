@@ -80,5 +80,12 @@ class Player:
             return 362 + move[1] * 30
 
 
-def cmputer_player():
-    ...
+# class for rendering the text for players
+class RenderingFont:
+    def __init__(self, screen, size):
+        self.screen = screen
+        self.font = pygame.font.Font("freesansbold.ttf", size)
+
+    def show_the_message(self, message, dimension):
+        text = self.font.render(message, True, (255, 255, 255))
+        self.screen.blit(text, dimension)
