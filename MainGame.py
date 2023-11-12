@@ -281,7 +281,7 @@ while runing:
                             # menu_state = "menu"
                             # player is won the game then
                             win_sound.play()
-                            time.sleep(10)
+                            time.sleep(1.2)
 
                         else:
                             player_move = won_list[1]
